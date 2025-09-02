@@ -1,5 +1,5 @@
 import { useState, useMemo } from "react";
-import { Customer, Address, mockCustomers, mockAddresses } from "@/data/mockData";
+import { mockCustomers, mockAddresses } from "@/data/mockData";
 import { CustomerCard } from "@/components/CustomerCard";
 import { CustomerForm } from "@/components/CustomerForm";
 import { SearchAndFilter } from "@/components/SearchAndFilter";
@@ -9,13 +9,13 @@ import { Plus, Users, MapPin } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 export default function CustomerList() {
-  const [customers, setCustomers] = useState<Customer[]>(mockCustomers);
-  const [addresses, setAddresses] = useState<Address[]>(mockAddresses);
+  const [customers, setCustomers] = useState(mockCustomers);
+  const [addresses, setAddresses] = useState(mockAddresses);
   const [searchTerm, setSearchTerm] = useState("");
   const [cityFilter, setCityFilter] = useState("");
   const [stateFilter, setStateFilter] = useState("");
   const [showCustomerForm, setShowCustomerForm] = useState(false);
-  const [editingCustomer, setEditingCustomer] = useState<Customer | null>(null);
+  const [editingCustomer, setEditingCustomer] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
 
@@ -55,7 +55,7 @@ export default function CustomerList() {
     currentPage * itemsPerPage
   );
 
-  const handleSaveCustomer = (customerData: Omit<Customer, 'id' | 'createdAt' | 'updatedAt'>) => {
+  const handleSaveCustomer = (customerData) => {
     if (editingCustomer) {
       // Update existing customer
       setCustomers(prev => prev.map(customer => 
@@ -69,7 +69,7 @@ export default function CustomerList() {
       });
     } else {
       // Add new customer
-      const newCustomer: Customer = {
+      const newCustomer = {
         id: Date.now().toString(),
         ...customerData,
         createdAt: new Date().toISOString(),
@@ -86,12 +86,12 @@ export default function CustomerList() {
     setEditingCustomer(null);
   };
 
-  const handleEditCustomer = (customer: Customer) => {
+  const handleEditCustomer = (customer) => {
     setEditingCustomer(customer);
     setShowCustomerForm(true);
   };
 
-  const handleDeleteCustomer = (customerId: string) => {
+  const handleDeleteCustomer = (customerId) => {
     if (window.confirm("Are you sure you want to delete this customer? This will also delete all associated addresses.")) {
       setCustomers(prev => prev.filter(customer => customer.id !== customerId));
       setAddresses(prev => prev.filter(addr => addr.customerId !== customerId));
@@ -110,7 +110,7 @@ export default function CustomerList() {
     setCurrentPage(1);
   };
 
-  const getCustomerAddresses = (customerId: string) => {
+  const getCustomerAddresses = (customerId) => {
     return addresses.filter(addr => addr.customerId === customerId);
   };
 
@@ -264,7 +264,7 @@ export default function CustomerList() {
         {/* Customer Form Modal */}
         {showCustomerForm && (
           <CustomerForm
-            customer={editingCustomer || undefined}
+            customer={editingCustomer}
             onSave={handleSaveCustomer}
             onCancel={() => {
               setShowCustomerForm(false);

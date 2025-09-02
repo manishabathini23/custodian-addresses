@@ -5,18 +5,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Search, Filter, X } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 
-interface SearchAndFilterProps {
-  searchTerm: string;
-  onSearchChange: (term: string) => void;
-  cityFilter: string;
-  onCityFilterChange: (city: string) => void;
-  stateFilter: string;
-  onStateFilterChange: (state: string) => void;
-  onClearFilters: () => void;
-  cities: string[];
-  states: string[];
-}
-
 export function SearchAndFilter({
   searchTerm,
   onSearchChange,
@@ -27,7 +15,7 @@ export function SearchAndFilter({
   onClearFilters,
   cities,
   states
-}: SearchAndFilterProps) {
+}) {
   const [showFilters, setShowFilters] = useState(false);
   const hasActiveFilters = cityFilter || stateFilter;
 

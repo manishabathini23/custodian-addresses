@@ -1,23 +1,4 @@
-export interface Customer {
-  id: string;
-  firstName: string;
-  lastName: string;
-  phoneNumber: string;
-  createdAt: string;
-  updatedAt: string;
-}
-
-export interface Address {
-  id: string;
-  customerId: string;
-  addressDetails: string;
-  city: string;
-  state: string;
-  pinCode: string;
-  isDefault?: boolean;
-}
-
-export const mockCustomers: Customer[] = [
+export const mockCustomers = [
   {
     id: "1",
     firstName: "Arjun",
@@ -84,7 +65,7 @@ export const mockCustomers: Customer[] = [
   }
 ];
 
-export const mockAddresses: Address[] = [
+export const mockAddresses = [
   {
     id: "1",
     customerId: "1",

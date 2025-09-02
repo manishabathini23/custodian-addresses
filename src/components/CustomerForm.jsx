@@ -1,28 +1,21 @@
 import { useState } from "react";
-import { Customer } from "@/data/mockData";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { X, Save, User } from "lucide-react";
 
-interface CustomerFormProps {
-  customer?: Customer;
-  onSave: (customer: Omit<Customer, 'id' | 'createdAt' | 'updatedAt'>) => void;
-  onCancel: () => void;
-}
-
-export function CustomerForm({ customer, onSave, onCancel }: CustomerFormProps) {
+export function CustomerForm({ customer, onSave, onCancel }) {
   const [formData, setFormData] = useState({
     firstName: customer?.firstName || '',
     lastName: customer?.lastName || '',
     phoneNumber: customer?.phoneNumber || ''
   });
 
-  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [errors, setErrors] = useState({});
 
   const validateForm = () => {
-    const newErrors: Record<string, string> = {};
+    const newErrors = {};
 
     if (!formData.firstName.trim()) {
       newErrors.firstName = 'First name is required';
@@ -42,7 +35,7 @@ export function CustomerForm({ customer, onSave, onCancel }: CustomerFormProps) 
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     
     if (validateForm()) {
@@ -50,7 +43,7 @@ export function CustomerForm({ customer, onSave, onCancel }: CustomerFormProps) 
     }
   };
 
-  const handleChange = (field: string, value: string) => {
+  const handleChange = (field, value) => {
     setFormData(prev => ({ ...prev, [field]: value }));
     if (errors[field]) {
       setErrors(prev => ({ ...prev, [field]: '' }));

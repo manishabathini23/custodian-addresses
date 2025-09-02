@@ -1,6 +1,6 @@
 import { useState, useMemo } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
-import { Customer, Address, mockCustomers, mockAddresses } from "@/data/mockData";
+import { mockCustomers, mockAddresses } from "@/data/mockData";
 import { AddressCard } from "@/components/AddressCard";
 import { AddressForm } from "@/components/AddressForm";
 import { CustomerForm } from "@/components/CustomerForm";
@@ -11,15 +11,15 @@ import { ArrowLeft, Plus, Phone, Calendar, Edit, Trash2, User, MapPin } from "lu
 import { useToast } from "@/hooks/use-toast";
 
 export default function CustomerDetail() {
-  const { id } = useParams<{ id: string }>();
+  const { id } = useParams();
   const navigate = useNavigate();
   const { toast } = useToast();
 
-  const [customers, setCustomers] = useState<Customer[]>(mockCustomers);
-  const [addresses, setAddresses] = useState<Address[]>(mockAddresses);
+  const [customers, setCustomers] = useState(mockCustomers);
+  const [addresses, setAddresses] = useState(mockAddresses);
   const [showAddressForm, setShowAddressForm] = useState(false);
   const [showCustomerForm, setShowCustomerForm] = useState(false);
-  const [editingAddress, setEditingAddress] = useState<Address | null>(null);
+  const [editingAddress, setEditingAddress] = useState(null);
 
   const customer = customers.find(c => c.id === id);
   const customerAddresses = addresses.filter(addr => addr.customerId === id);
@@ -41,7 +41,7 @@ export default function CustomerDetail() {
     );
   }
 
-  const handleUpdateCustomer = (customerData: Omit<Customer, 'id' | 'createdAt' | 'updatedAt'>) => {
+  const handleUpdateCustomer = (customerData) => {
     setCustomers(prev => prev.map(c => 
       c.id === customer.id 
         ? { ...c, ...customerData, updatedAt: new Date().toISOString() }
@@ -65,7 +65,7 @@ export default function CustomerDetail() {
     }
   };
 
-  const handleSaveAddress = (addressData: Omit<Address, 'id'>) => {
+  const handleSaveAddress = (addressData) => {
     if (editingAddress) {
       // Update existing address
       setAddresses(prev => prev.map(addr => 
@@ -79,7 +79,7 @@ export default function CustomerDetail() {
       });
     } else {
       // Add new address
-      const newAddress: Address = {
+      const newAddress = {
         id: Date.now().toString(),
         ...addressData
       };
@@ -94,12 +94,12 @@ export default function CustomerDetail() {
     setEditingAddress(null);
   };
 
-  const handleEditAddress = (address: Address) => {
+  const handleEditAddress = (address) => {
     setEditingAddress(address);
     setShowAddressForm(true);
   };
 
-  const handleDeleteAddress = (addressId: string) => {
+  const handleDeleteAddress = (addressId) => {
     if (window.confirm("Are you sure you want to delete this address?")) {
       setAddresses(prev => prev.filter(addr => addr.id !== addressId));
       toast({
@@ -110,7 +110,7 @@ export default function CustomerDetail() {
     }
   };
 
-  const handleSetDefaultAddress = (addressId: string) => {
+  const handleSetDefaultAddress = (addressId) => {
     setAddresses(prev => prev.map(addr => ({
       ...addr,
       isDefault: addr.customerId === customer.id ? addr.id === addressId : addr.isDefault
@@ -121,7 +121,7 @@ export default function CustomerDetail() {
     });
   };
 
-  const formatDate = (dateString: string) => {
+  const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString('en-IN', {
       year: 'numeric',
       month: 'long',
@@ -292,7 +292,7 @@ export default function CustomerDetail() {
 
         {showAddressForm && (
           <AddressForm
-            address={editingAddress || undefined}
+            address={editingAddress}
             customerId={customer.id}
             onSave={handleSaveAddress}
             onCancel={() => {

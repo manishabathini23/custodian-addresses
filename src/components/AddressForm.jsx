@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Address } from "@/data/mockData";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -7,14 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { X, Save, MapPin } from "lucide-react";
 
-interface AddressFormProps {
-  address?: Address;
-  customerId: string;
-  onSave: (address: Omit<Address, 'id'>) => void;
-  onCancel: () => void;
-}
-
-export function AddressForm({ address, customerId, onSave, onCancel }: AddressFormProps) {
+export function AddressForm({ address, customerId, onSave, onCancel }) {
   const [formData, setFormData] = useState({
     customerId,
     addressDetails: address?.addressDetails || '',
@@ -24,10 +16,10 @@ export function AddressForm({ address, customerId, onSave, onCancel }: AddressFo
     isDefault: address?.isDefault || false
   });
 
-  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [errors, setErrors] = useState({});
 
   const validateForm = () => {
-    const newErrors: Record<string, string> = {};
+    const newErrors = {};
 
     if (!formData.addressDetails.trim()) {
       newErrors.addressDetails = 'Address details are required';
@@ -51,7 +43,7 @@ export function AddressForm({ address, customerId, onSave, onCancel }: AddressFo
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     
     if (validateForm()) {
@@ -59,7 +51,7 @@ export function AddressForm({ address, customerId, onSave, onCancel }: AddressFo
     }
   };
 
-  const handleChange = (field: string, value: string | boolean) => {
+  const handleChange = (field, value) => {
     setFormData(prev => ({ ...prev, [field]: value }));
     if (errors[field]) {
       setErrors(prev => ({ ...prev, [field]: '' }));

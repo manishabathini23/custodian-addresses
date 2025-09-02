@@ -1,17 +1,9 @@
-import { Address } from "@/data/mockData";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { MapPin, Edit, Trash2, Star } from "lucide-react";
 
-interface AddressCardProps {
-  address: Address;
-  onEdit: (address: Address) => void;
-  onDelete: (addressId: string) => void;
-  onSetDefault: (addressId: string) => void;
-}
-
-export function AddressCard({ address, onEdit, onDelete, onSetDefault }: AddressCardProps) {
+export function AddressCard({ address, onEdit, onDelete, onSetDefault }) {
   return (
     <Card className="group bg-gradient-card border-border/40 hover:shadow-medium transition-all duration-300">
       <CardHeader className="pb-3">

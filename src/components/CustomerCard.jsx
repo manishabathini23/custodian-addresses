@@ -1,18 +1,10 @@
-import { Customer, Address } from "@/data/mockData";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Phone, MapPin, Edit, Trash2, Eye } from "lucide-react";
 import { Link } from "react-router-dom";
 
-interface CustomerCardProps {
-  customer: Customer;
-  addresses: Address[];
-  onEdit: (customer: Customer) => void;
-  onDelete: (customerId: string) => void;
-}
-
-export function CustomerCard({ customer, addresses, onEdit, onDelete }: CustomerCardProps) {
+export function CustomerCard({ customer, addresses, onEdit, onDelete }) {
   const defaultAddress = addresses.find(addr => addr.isDefault) || addresses[0];
   const addressCount = addresses.length;
 
